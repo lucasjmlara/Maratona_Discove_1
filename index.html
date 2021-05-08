@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=devide-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,400;0,700;1,100;1,400;1,700&display=swap">
+</head>
+
+<body>
+    <header>
+        <img src="./assets/logo.svg" alt="Logo Dev Finance">
+    </header>
+    <main class="container">
+        <section id="balances">
+            <h2 class="hidden">Balanços</h2>
+            <div class="card entrada">
+                <h3>
+                    <span>Entradas</span>
+                    <img src="./assets/income.svg">
+                </h3>
+                <p>R$ 1500,00</p>
+            </div>
+            <div class="card saida">
+                <h3>
+                    <span>Saídas</span>
+                    <img src="./assets/expense.svg">
+                </h3>
+                <p>R$ 595,00</p>
+            </div>
+            <div class="card total">
+                <h3>
+                    <span>Total</span>
+                    <img src="./assets/total.svg">
+                </h3>
+                <p>R$ 905,00</p>
+            </div>
+        </section>
+        <section id="transactions">
+            <h2 class="hidden">Transações</h2>
+
+            <a href="#" class="button new">+ Nova Transação</a>
+
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Descrição</th>
+                        <th id="valor">Valor</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="date">03/04/2021</td>
+                        <td class="description">Luz</td>
+                        <td class="expense"> - R$ 500,00</td>
+                        <td>
+                            <img src="./assets/minus.svg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="date">03/04/2021</td>
+                        <td class="description">Bolsa Auxílio</td>
+                        <td class="income"> + R$ 1500,00</td>
+                        <td>
+                            <img src="./assets/minus.svg">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="date">26/03/2021</td>
+                        <td class="description">WiseUp Online</td>
+                        <td class="expense"> - R$ 95,00</td>
+                        <td>
+                            <img src="./assets/minus.svg">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <div class="modal-overlay">
+        <div class="modal">
+
+        </div>
+    </div>
+
+    <footer>
+        <p>Lucas Lara</p>
+    </footer>
+</body>
+
+</html>
