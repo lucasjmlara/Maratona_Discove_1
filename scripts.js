@@ -97,13 +97,13 @@ const DOM = {
     updateBalance() {
         document
             .getElementById('incomeDisplay')
-            .innerHTML = Utils.formatCurrency(Transaction.incomes());
+            .innerHTML = Utils.formatCards(Transaction.incomes());
         document
             .getElementById('expenseDisplay')
-            .innerHTML = Utils.formatCurrency(Transaction.expenses());
+            .innerHTML = Utils.formatCards(Transaction.expenses());
         document
             .getElementById('totalDisplay')
-            .innerHTML = Utils.formatCurrency(Transaction.total());
+            .innerHTML = Utils.formatCards(Transaction.total());
 
     },
 
@@ -125,6 +125,17 @@ const Utils = {
         });   
 
         return (signal + value);
+    },
+    formatCards(value) {
+        value = String(value).replace(/\D/g, '');
+
+        value = Number(value) / 100;
+        value = value.toLocaleString('pt-BT', {
+            style: "currency",
+            currency: "BRL",
+        });   
+
+        return (value);
     }
 }
 
