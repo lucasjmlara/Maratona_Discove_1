@@ -169,7 +169,7 @@ table tbody tr td:last-child {
 }
 
 #valor {
-  padding: 1rem 1rem;
+  padding: 1rem 0.5rem;
 }
 
 table thead th {
