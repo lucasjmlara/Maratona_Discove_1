@@ -43,6 +43,12 @@ const Transaction = {
         App.reload();
     },
 
+    remove(index) {
+        Transaction.all.splice(index, 1);
+
+        App.reload();
+    },
+
     incomes() {
         let income = 0;
         Transaction.all.forEach((transaction) => {
@@ -52,6 +58,7 @@ const Transaction = {
         })
         return income;
     },
+
     expenses() {
         let expense = 0;
         Transaction.all.forEach((transaction) => {
@@ -61,6 +68,7 @@ const Transaction = {
         })
         return expense;
     },
+
     total() {
         return (Transaction.incomes() + Transaction.expenses());
     }
@@ -71,25 +79,23 @@ const DOM = {
     
     addTransaction(transaction, index) {
         const tr = document.createElement('tr');
-        tr.innerHTML = DOM.innerHTMLTransaction(transaction);
+        tr.innerHTML = DOM.innerHTMLTransaction(transaction, index);
+        tr.dataset.index = index;
         DOM.transactionsContainer.appendChild(tr);
-
     },
 
-    innerHTMLTransaction(transaction) {
+    innerHTMLTransaction(transaction, index) {
         const CSSclass = transaction.amount > 0 ? "income" : "expense";
 
         const amount = Utils.formatCurrency(transaction.amount);
 
         const html = `
-        <tr>
             <td class="date">${transaction.date}</td>
             <td class="description">${transaction.description}</td>
             <td class="${CSSclass}">${amount}</td>
             <td>
-                <img src="./assets/minus.svg">
+                <img src="./assets/minus.svg" onclick="Transaction.remove(${index})">
             </td>
-        </tr>
         `
         return html
     },
@@ -113,6 +119,16 @@ const DOM = {
 }
 
 const Utils = {
+    formatAmount(amount) {
+        value = Number(amount.replace(/\,\./g, '')) * 100;
+        return value;
+    },
+
+    formatDate(date) {
+        const splitDate = date.split('-')
+        return `${splitDate[2]}/${splitDate[1]}/${splitDate[0]}`;
+    },
+
     formatCurrency(value) {
         const signal = Number(value) < 0 ? "- " : "+ ";
 
@@ -126,6 +142,7 @@ const Utils = {
 
         return (signal + value);
     },
+
     formatCards(value) {
         value = String(value).replace(/\D/g, '');
 
@@ -139,10 +156,65 @@ const Utils = {
     }
 }
 
+const Form = {
+    description: document.querySelector('input#description'),
+    amount: document.querySelector('input#amount'),
+    date: document.querySelector('input#date'),
+
+    getValues() {
+        return {
+            description: Form.description.value,
+            amount: Form.amount.value,
+            date: Form.date.value,
+        }
+    },
+
+    validateFields() {
+        const { description, amount, date } = Form.getValues();
+        if(description.trim() == '' || amount.trim() == '' || date.trim() == '') {
+            throw new Error('Por favor, preencha todos os campos')
+        };
+    },
+
+    formatValues() {
+        let {description, amount, date } = Form.getValues();
+
+        amount = Utils.formatAmount(amount);
+
+        date = Utils.formatDate(date);
+
+        return {
+            description,
+            amount,
+            date
+        }
+    },
+
+    clearFields() {
+        Form.description.value = '';
+        Form.amount.value = '';
+        Form.date.value = '';
+    },
+
+    submit(event) {
+        event.preventDefault();
+
+        try {
+            Form.validateFields();
+            const transaction = Form.formatValues();
+            Transaction.add(transaction);
+            Form.clearFields();
+            Modal.close();
+        } catch(error) {
+            alert(error.message);
+        };
+    },
+}
+
 const App = {
     init() {
         
-        Transaction.all.forEach(transaction => {
+        Transaction.all.forEach((transaction, index) => {
             DOM.addTransaction(transaction); 
         })
 
