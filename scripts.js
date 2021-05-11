@@ -22,27 +22,6 @@ const Storage = {
     }
 }
 
-const transactions = [
-    {
-        id:1,
-        description: 'Luz',
-        amount: - 23238,
-        date: '03/04/2021',
-    },
-    {
-        id:2,
-        description: 'Bolsa Auxílio',
-        amount: 150000,
-        date: '03/04/2021',
-    },
-    {
-        id:3,
-        description: 'WiseUp Online',
-        amount: - 9500,
-        date: '26/03/2021',
-    },
-]
-
 const Transaction = {
     all: Storage.get(),
 
@@ -60,7 +39,7 @@ const Transaction = {
 
     incomes() {
         let income = 0;
-        Transaction.all.forEach((transaction) => {
+        Transaction.all.forEach(transaction => {
             if(transaction.amount > 0) {
                 income += transaction.amount;
             }
@@ -70,7 +49,7 @@ const Transaction = {
 
     expenses() {
         let expense = 0;
-        Transaction.all.forEach((transaction) => {
+        Transaction.all.forEach(transaction => {
             if(transaction.amount < 0) {
                 expense += transaction.amount;
             }
@@ -99,12 +78,12 @@ const DOM = {
         const amount = Utils.formatCurrency(transaction.amount);
 
         const html = `
-            <td class="date">${transaction.date}</td>
-            <td class="description">${transaction.description}</td>
-            <td class="${CSSclass}">${amount}</td>
-            <td>
-                <img src="./assets/minus.svg" onclick="Transaction.remove(${index})">
-            </td>
+        <td class="description">${transaction.description}</td>
+        <td class="${CSSclass}">${amount}</td>
+        <td class="date">${transaction.date}</td>
+        <td>
+            <img src="./assets/minus.svg" onclick="Transaction.remove(${index})">
+        </td>
         `
         return html
     },
@@ -186,7 +165,7 @@ const Form = {
     },
 
     formatValues() {
-        let {description, amount, date } = Form.getValues();
+        let { description, amount, date } = Form.getValues();
 
         amount = Utils.formatAmount(amount);
 
@@ -224,7 +203,7 @@ const App = {
     init() {
         
         Transaction.all.forEach((transaction, index) => {
-            DOM.addTransaction(transaction); 
+            DOM.addTransaction(transaction,index); 
         })
 
         DOM.updateBalance()
