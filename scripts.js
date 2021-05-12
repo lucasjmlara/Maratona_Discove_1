@@ -24,6 +24,41 @@ const Storage = {
 
 const Transaction = {
     all: Storage.get(),
+    
+    order() {
+        Transaction.all.sort(function(obj_A, obj_B) {
+            [dia_A, mes_A, ano_A] = obj_A.date.split('/');
+            [dia_B, mes_B, ano_B] = obj_B.date.split('/');
+            console.log(dia_A, mes_A, ano_A)
+            ano = mes = dia = 0
+            if(ano_A>ano_B) {
+                ano = -100
+            }
+            else if(ano_A<ano_B) {
+                ano = 100
+            }
+
+            if(mes_A>mes_B) {
+                mes = -10
+            }
+            else if(mes_A<mes_B) {
+                mes = 10
+            }
+
+            if(dia_A>dia_B) {
+                dia = -1
+            }
+            else if(dia_A<dia_B) {
+                dia = 1
+            }
+
+            if(ano+mes+dia > 0) result = 1
+            else if(ano+mes+dia < 0) result = -1
+            else result = 0
+
+            return result
+        })
+    },
 
     add(transaction) {
         Transaction.all.push(transaction);
@@ -108,7 +143,7 @@ const DOM = {
 
 const Utils = {
     formatAmount(amount) {
-        value = Number(amount.replace(/\,\./g, '')) * 100;
+        value = Math.round(amount * 100);
         return value;
     },
 
@@ -206,12 +241,15 @@ const App = {
             DOM.addTransaction(transaction,index); 
         })
 
-        DOM.updateBalance()
+        DOM.updateBalance();
 
         Storage.set(Transaction.all)
     },
     reload() {
         DOM.clearTransactions();
+
+        Transaction.order();
+        
         App.init()
     },
 }
